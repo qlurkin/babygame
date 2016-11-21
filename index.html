@@ -1,8 +1,98 @@
 <?doctype html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <style>
+      body, html, div {
+        padding: 0;
+        margin: 0;
+      }
+
+      canvas, img {
+        image-rendering: optimizeSpeed;             /* Older versions of FF          */
+        image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+        image-rendering: -webkit-optimize-contrast; /* Safari                        */
+        image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+        image-rendering: pixelated;                 /* Awesome future-browsers       */
+        -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+      }
+
+      canvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      #canvas, #overlay, #hud {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      #score {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 6vmin;
+        position: absolute;
+        top: 3vmin;
+        right: 3vmin;
+      }
+
+      #overlay {
+        opacity: 0;
+      }
+
+      #canvas {
+        background-color: #4866C5;
+      }
+
+      #bulle {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 14vmin;
+        width: 94vmin;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        flex-direction: row;
+        font-family: 'Press Start 2P', monospace;
+        background-color: white;
+        border: 1vmin solid black;
+        text-align: center;
+        height: 40%;
+        font-size: 3vmin;
+        line-height: 1.6;
+      }
+
+
+    </style>
   </head>
-  <body>
+  <body class="description">
+    <div id="canvas"></div>
+    <div id="hud">
+      <div id="score">00000m</div>
+    </div>
+    <div id="overlay">
+      <div id="bulle">
+        <div id="bulle-content"></div>
+      </div>
+    </div>
+
+    <script src="tiles.js"></script>
+    <script src="requestAnimationFrame.js"></script>
+    <script src="drawable.js"></script>
+    <script src="ground.js"></script>
+    <script src="background.js"></script>
+    <script src="hero.js"></script>
+    <script src="vilain.js"></script>
+    <script src="runningvilain.js"></script>
+    <script src="flyingvilain.js"></script>
     <script src="script.js"></script>
+    <script src="event.js"></script>
+    <script>
+      App.init();
+    </script>
   </body>
 </html>
