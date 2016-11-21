@@ -102,23 +102,15 @@ var App = (function () {
     }
   };
 
-  var update = (function () {
-    var prevCall = undefined;
-    return function () {
-      var thisCall = performance.now();
-      if(prevCall != undefined) {
-        var delta = thisCall - prevCall;
-        if(objects.length > 3 && objects[3].x+objects[3].width < left) objects.splice(3,1);
-        context.clearRect(left,top,right-left,bottom-top);
-        for(var i=0; i<objects.length; i++) {
-          if(state == RUNNING) objects[i].update(delta, speed);
-        }
-        if(state == RUNNING) score += delta*speed/20;
-        document.getElementById("score").innerHTML = Math.floor(score) + "m";
-      }
-      prevCall = thisCall;
+  var update = function (delta) {
+    //var delta = thisCall - prevCall;
+    if(objects.length > 3 && objects[3].x+objects[3].width < left) objects.splice(3,1);
+    for(var i=0; i<objects.length; i++) {
+      if(state == RUNNING) objects[i].update(delta, speed);
     }
-  })();
+    if(state == RUNNING) score += delta*speed/20;
+    document.getElementById("score").innerHTML = Math.floor(score) + "m";
+  };
 
   var loop = function () {
     if(state == RUNNING && isOver()) switchState(OVER);
@@ -130,13 +122,13 @@ var App = (function () {
 
 
   var run = function () {
-    function frame() {
+    function frame(delta) {
       requestAnimationFrame(frame);
-      update();
+      update(delta);
       draw();
       loop();
     }
-    frame();
+    frame(0);
   };
 
   that.initCanvas = function () {
