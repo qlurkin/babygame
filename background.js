@@ -2,8 +2,7 @@ var Background = function () {
   var that = {};
 
   var offset = 0;
-  var tile =Tiles.background();
-  var pattern=context.createPattern(tile,"repeat");
+  var pattern = null;
 
   that.update = function (delta, speed) {
     offset -= delta * (speed/4);
@@ -11,6 +10,10 @@ var Background = function () {
   };
 
   that.draw = function (context) {
+    if(pattern === null) {
+      var tile =Tiles.background();
+      pattern=context.createPattern(tile,"repeat");
+    }
     context.fillStyle = pattern;
     context.translate(offset, 0);
     context.fillRect(App.getLeft(), 0, App.getWidth()+160, 144);

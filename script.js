@@ -122,11 +122,16 @@ var App = (function () {
 
 
   var run = function () {
-    function frame(delta) {
-      requestAnimationFrame(frame);
+    var start = null;
+    function frame(timestamp) {
+      if (start === null) start = timestamp;
+      delta = timestamp - start;
+      console.log("delta= " + delta);
       update(delta);
       draw();
       loop();
+      start = timestamp;
+      requestAnimationFrame(frame);
     }
     frame(0);
   };
@@ -207,6 +212,6 @@ var App = (function () {
   that.getHeight = function () {
     return bottom - top;
   };
-
+  
   return that;
 })();
