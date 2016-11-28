@@ -39,3 +39,13 @@ document.addEventListener('touchend', function (event) {
   App.jumpEnd();
   event.preventDefault();
 }, false);
+
+window.addEventListener('visibilitychange', function (event) {
+  if(document.visibilityState === "hidden") {
+    App.pause();
+  }
+  if(document.visibilityState === "visible") {
+    App.resume();
+  }
+
+}, false);

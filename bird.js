@@ -1,7 +1,9 @@
-var FlyingVilain = function (x) {
-	var that = Vilain(x,110);
-	that.width = 17;
-	that.height = 12;
+var Bird = function (x) {
+	var altitude = Math.floor(64 + Math.random() * 60);
+	//var altitude = 120;
+	var that = Vilain(x,altitude);
+	that.width = 10;
+	that.height = 8;
   var frame = 0;
   var AnimationSize = 4;
   var frameDuration = 3;
@@ -13,7 +15,7 @@ var FlyingVilain = function (x) {
 
 	};
 	that.update = function (delta, speed) {
-		this.x -= delta * speed;
+		this.x -= delta * (1.5*speed);
     frame = (frame + 1) % (AnimationSize*frameDuration);
 	};
 

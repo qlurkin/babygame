@@ -3,7 +3,7 @@ var App = (function () {
 
   var objects = [];
   var hero = null;
-  var speed = 0.1;
+  var speed = 0;
   var context = null;
   var bottom = 0;
   var top = 0;
@@ -14,25 +14,35 @@ var App = (function () {
   const ANNOUNCEMENT = 2;
   const OVER = 3;
   const SCORE = 6;
+  const CREDITS = 7;
   var state = DESCRIPTION;
   var score = 0;
   var announced = false;
+  var jumpSound = null;
+  var music = null;
+  var pause = false;
 
   var switchState = function (s) {
     var body = document.getElementsByTagName('body')[0];
     if(s == DESCRIPTION) {
       body.className = 'description';
+      console.log('description');
+      score = 0;
+      speed = 0.05;
+      objects = objects.slice(0,3);
+      showBulle("Je suis Charly. Si je cours 500m, je vous dirai une bonne nouvelle !");
     }
 
     if(s == RUNNING) {
       body.className = 'running';
       hideBulle();
+      //music.play();
     }
 
     if(s == ANNOUNCEMENT) {
       body.className = 'announcement';
       announced = true;
-      showBulle("Chouette ! Je vais avoir un petit frère en mai !");
+      showBulle("Je vais avoir un petit frère en mai. Chouette !");
     }
 
     if(s == SCORE) {
@@ -42,6 +52,13 @@ var App = (function () {
     if(s == OVER) {
       body.className = 'over';
       showBulle("Game Over");
+      //music.pause();
+    }
+
+    if(s == CREDITS) {
+      body.className = 'credits';
+      console.log('credits');
+      //music.pause();
     }
 
     state = s;
@@ -84,15 +101,21 @@ var App = (function () {
   };
 
   var spawnVilain = function () {
-    if(state == RUNNING) {
-      if(Math.random() < 0.5) {
-        objects.push(FlyingVilain(right));
+
+    if(state == RUNNING && !pause) {
+      var hazard = Math.random();
+      //var hazard = 1;
+      if(hazard < 0.4) {
+        objects.push(Bird(right));
+      }
+      else if(hazard < 0.8){
+        objects.push(Dog(right));
       }
       else {
-        objects.push(RunningVilain(right));
+        objects.push(Cat(right));
       }
     }
-    var time = 1000 + Math.random()*1000;
+    var time = 1500 + Math.random()*2000;
     setTimeout(spawnVilain, time);
   };
 
@@ -114,19 +137,21 @@ var App = (function () {
 
   var loop = function () {
     if(state == RUNNING && isOver()) switchState(OVER);
-    if(state == RUNNING && score > 1000 && !announced) switchState(ANNOUNCEMENT);
+    if(state == RUNNING && score > 50 && !announced) switchState(ANNOUNCEMENT);
     if(state == RUNNING) speed *= 1.0001;
   };
 
 
 
-
+  var start = null;
   var run = function () {
-    var start = null;
     function frame(timestamp) {
       if (start === null) start = timestamp;
       delta = timestamp - start;
-      console.log("delta= " + delta);
+      if(pause) {
+        delta = 0;
+        console.log('pause');
+      }
       update(delta);
       draw();
       loop();
@@ -176,17 +201,38 @@ var App = (function () {
     objects.push(hero);
     run();
     spawnVilain();
-    showBulle("Je suis Charly. Si je cours 1000m, j'aurai une belle surprise !");
+    jumpSound = document.getElementById("jump");
+    music = document.getElementById("music");
+    switchState(DESCRIPTION);
   };
 
   that.jumpStart = function () {
-    if(state == RUNNING) hero.jump();
-    if(state == DESCRIPTION) switchState(RUNNING);
-    if(state == ANNOUNCEMENT) switchState(RUNNING);
+    music.play();
+    if(state == RUNNING) {
+      jumpSound.play();
+      hero.jump();
+      return;
+    }
+    if(state == DESCRIPTION){
+      switchState(RUNNING);
+      return;
+    }
+    if(state == ANNOUNCEMENT){
+      switchState(RUNNING);
+      return;
+    }
+    if(state == OVER){
+      switchState(CREDITS);
+      return;
+    }
+    if(state == CREDITS){
+      switchState(DESCRIPTION);
+      return;
+    }
   };
 
   that.jumpEnd = function () {
-
+      if(state == RUNNING) hero.jumpStop();
   };
 
   that.getLeft = function () {
@@ -212,6 +258,18 @@ var App = (function () {
   that.getHeight = function () {
     return bottom - top;
   };
-  
+
+  that.pause = function() {
+    music.pause();
+    pause = true;
+    start = null;
+  }
+
+  that.resume = function () {
+    music.play();
+    pause = false;
+    start = null;
+  }
+
   return that;
 })();

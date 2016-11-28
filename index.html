@@ -23,6 +23,10 @@
         height: 100%;
       }
 
+      img {
+        opacity: 0;
+      }
+
       #canvas, #overlay, #hud {
         position: fixed;
         top: 0;
@@ -64,20 +68,85 @@
         height: 40%;
         font-size: 3vmin;
         line-height: 1.6;
+        padding: 5vmin;
+      }
+
+      #credits {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: black;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 1.5vmin;
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+      }
+
+      .credits #credits {
+        opacity: 0.9;
+      }
+
+      #credits h1 {
+        font-size: 1em;
+        color: red;
+        margin-top: 4vmin;
+      }
+
+      #credits h1:first-child {
+        margin-top: 0;
       }
 
 
     </style>
   </head>
   <body class="description">
+    <img id="background" src="background.png" /> <!-- source: OpenGameArt.org, author: GrafxKid -->
+    <img id="cat" src="cat.png" /><!-- dog and cat source: OpenGameArt.org, author: Shepardskin-->
+    <img id="dog" src="dog.png" /><!-- dog and cat source: OpenGameArt.org, author: Shepardskin-->
+    <img id="charly" src="charly.png" /> <!-- source: OpenGameArt.org, author: Antifarea -->
+    <img id="ground" src="ground.png" /> <!-- source: OpenGameArt.org, author: GrafxKid -->
+    <img id="bird" src="bird.png" /> <!-- source: OpenGameArt.org, author: LD -->
+    <audio id="music" loop autoplay> <!-- source: OpenGameArt.org, author: CodeManu -->
+      <source src="music.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="jump"> <!-- source: OpenGameArt.org, author: dklon -->
+      <source src="jump.mp3" type="audio/mpeg">
+    </audio>
+
     <div id="canvas"></div>
     <div id="hud">
-      <div id="score">00000m</div>
+      <div id="score">0m</div>
     </div>
     <div id="overlay">
       <div id="bulle">
         <div id="bulle-content"></div>
       </div>
+    </div>
+    <div id="credits">
+      <h1>Programmation</h1>
+      <p>Quentin Lurkin </p>
+      <h1>Charly</h1>
+      <p>Antifarea (OpenGameArt.org)</p>
+      <h1>Décorts</h1>
+      <p>GrafxKid (OpenGameArt.org)</p>
+      <h1>Chiens et chats</h1>
+      <p>Shepardskin (OpenGameArt.org)</p>
+      <h1>Oiseaux</h1>
+      <p>LD (OpenGameArt.org)</p>
+      <h1>Music</h1>
+      <p>CodeManu (OpenGameArt.org)</p>
+      <h1>Sound</h1>
+      <p>dklon (OpenGameArt.org)</p>
+      <h1>Bébé</h1>
+      <p>Evelyne Queeckers</p>
+      <p>Quentin Lurkin</p>
     </div>
 
     <script src="tiles.js"></script>
@@ -87,8 +156,9 @@
     <script src="background.js"></script>
     <script src="hero.js"></script>
     <script src="vilain.js"></script>
-    <script src="runningvilain.js"></script>
-    <script src="flyingvilain.js"></script>
+    <script src="bird.js"></script>
+    <script src="cat.js"></script>
+    <script src="dog.js"></script>
     <script src="script.js"></script>
     <script src="event.js"></script>
     <script>
