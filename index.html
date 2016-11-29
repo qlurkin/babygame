@@ -103,6 +103,13 @@
         margin-top: 0;
       }
 
+      .hidden {
+        display: none;
+      }
+
+      .announced .hidden {
+        display: block;
+      }
 
     </style>
   </head>
@@ -134,7 +141,7 @@
       <p>Quentin Lurkin </p>
       <h1>Charly</h1>
       <p>Antifarea (OpenGameArt.org)</p>
-      <h1>Décorts</h1>
+      <h1>Décors</h1>
       <p>GrafxKid (OpenGameArt.org)</p>
       <h1>Chiens et chats</h1>
       <p>Shepardskin (OpenGameArt.org)</p>
@@ -144,9 +151,9 @@
       <p>CodeManu (OpenGameArt.org)</p>
       <h1>Son</h1>
       <p>dklon (OpenGameArt.org)</p>
-      <h1>Bébé</h1>
-      <p>Evelyne Queeckers</p>
-      <p>Quentin Lurkin</p>
+      <h1 class="hidden">Bébé</h1>
+      <p class="hidden">Evelyne Queeckers</p>
+      <p class="hidden">Quentin Lurkin</p>
     </div>
 
     <script src="tiles.js"></script>

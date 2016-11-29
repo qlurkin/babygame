@@ -21,6 +21,8 @@ var App = (function () {
   var jumpSound = null;
   var music = null;
   var pause = false;
+  var hold = true;
+  var goal = 300;
 
   var switchState = function (s) {
     var body = document.getElementsByTagName('body')[0];
@@ -30,7 +32,9 @@ var App = (function () {
       score = 0;
       speed = 0.05;
       objects = objects.slice(0,3);
-      showBulle("Je suis Charly. Si je cours 500m, je vous dirai une bonne nouvelle !");
+      announced = false;
+      hold = true;
+      showBulle("Je suis Charly. Si je cours " + goal + "m, je vous dirai une bonne nouvelle !");
     }
 
     if(s == RUNNING) {
@@ -42,7 +46,11 @@ var App = (function () {
     if(s == ANNOUNCEMENT) {
       body.className = 'announcement';
       announced = true;
+      document.getElementById("credits").className = 'announced';
       showBulle("Je vais avoir un petit frère en mai. Chouette !");
+      setTimeout(function () {
+        hold = false;
+      }, 1000);
     }
 
     if(s == SCORE) {
@@ -137,7 +145,7 @@ var App = (function () {
 
   var loop = function () {
     if(state == RUNNING && isOver()) switchState(OVER);
-    if(state == RUNNING && score > 50 && !announced) switchState(ANNOUNCEMENT);
+    if(state == RUNNING && score > goal && !announced) switchState(ANNOUNCEMENT);
     if(state == RUNNING) speed *= 1.0001;
   };
 
@@ -217,7 +225,7 @@ var App = (function () {
       switchState(RUNNING);
       return;
     }
-    if(state == ANNOUNCEMENT){
+    if(state == ANNOUNCEMENT && !hold){
       switchState(RUNNING);
       return;
     }
