@@ -34,7 +34,7 @@ var App = (function () {
       objects = objects.slice(0,3);
       announced = false;
       hold = true;
-      showBulle("Je suis Charly. Si je cours " + goal + "m, je vous dirai une bonne nouvelle !");
+      showBulle("Salut c'est Charly, si on court " + goal + "m, je te dirai un truc super!");
     }
 
     if(s == RUNNING) {
